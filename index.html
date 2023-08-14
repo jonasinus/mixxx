@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>mixxx v3</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="./tonal.js"></script>
+        <script type="module" src="./soundtouch.js"></script>
+        <script src="./music-tempo.js"></script>
+        <script src="./main.js" defer></script>
+    </head>
+    <body>
+        <div class="decks">
+            <div class="deck deck1" id="deck1">
+                <div class="infos">
+                    <h2>./a.mp3</h2>
+                </div>
+                <div class="waveform">
+                    <canvas id="deck1-waveform"></canvas>
+                </div>
+                <div class="controls">
+                    <label for="deck1HPF">HPF</label>
+                    <input type="range" name="" id="deck1HPF" />
+                    <label for="deck1MPF">MPF</label>
+                    <input type="range" name="" id="deck1MPF" />
+                    <label for="deck1LPF">LPF</label>
+                    <input type="range" name="" id="deck1LPF" />
+                    <button id="deck1-play">play</button>
+                    <button id="deck1-loop">loop</button>
+                    <input type="range" id="deck1-progres" />
+                </div>
+            </div>
+            <div class="deck deck2" id="deck2">
+                <div class="infos">
+                    <h2>./b.mp3</h2>
+                </div>
+                <div class="waveform">
+                    <canvas id="deck2-waveform"></canvas>
+                </div>
+                <div class="controls">
+                    <label for="deck2HPF">HPF</label>
+                    <input type="range" name="" id="deck2HPF" />
+                    <label for="deck2MPF">MPF</label>
+                    <input type="range" name="" id="deck2MPF" />
+                    <label for="deck2LPF">LPF</label>
+                    <input type="range" name="" id="deck2LPF" />
+                    <button id="deck2-play">play</button>
+                    <button id="deck2-loop">loop</button>
+                    <input type="range" id="deck2-progres" />
+                </div>
+            </div>
+        </div>
+        <script>
+            // Check for Web MIDI API support
+            if (navigator.requestMIDIAccess) {
+                navigator.requestMIDIAccess({ sysex: false }).then(onMIDISuccess, onMIDIFailure)
+            } else {
+                console.log('Web MIDI API not supported.')
+            }
+
+            function onMIDISuccess(midiAccess) {
+                // Get the first MIDI output device
+                const outputs = midiAccess.outputs.values()
+                const output = outputs.next().value
+
+                if (output) {
+                    // Send a MIDI note-on message (note 60, velocity 127)
+                    output.send([0x90, 60, 127])
+
+                    // Send a MIDI note-off message after a delay
+                    setTimeout(() => {
+                        output.send([0x80, 60, 0])
+                    }, 1000)
+                }
+            }
+
+            function onMIDIFailure() {
+                console.log('Failed to access MIDI devices.')
+            }
+        </script>
+    </body>
+</html>

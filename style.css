@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(18, 9, 27);
+    color: azure;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+div.decks {
+    display: flex;
+    gap: 8vw;
+}
+
+div.deck {
+    display: flex;
+    background-color: #ffffff20;
+    height: 50vh;
+    width: 100%;
+    flex-direction: column;
+}
+
+div.deck > div.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
